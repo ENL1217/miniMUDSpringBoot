@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Mini MUD</title></head>
+<body>
+  <h2>Mini MUD RPG</h2>
+  <input type="text" id="command" placeholder="Type a command">
+  <button onclick="sendCommand()">Send</button>
+  <pre id="output"></pre>
+
+  <script>
+    function sendCommand() {
+      const cmd = document.getElementById("command").value;
+      fetch('/api/command', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ playerId: "demoPlayer", command: cmd })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("output").textContent += "\n> " + cmd + "\n" + data.message + "\n";
+      });
+    }
+  </script>
+</body>
+</html>
